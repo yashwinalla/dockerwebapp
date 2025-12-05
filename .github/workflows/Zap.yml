@@ -1,0 +1,30 @@
+permissions: write-all
+
+name: ZAP Baseline Scan
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      
+
+jobs:
+  zap scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.9.0 # Replace vX with the latest version
+        with:
+          target: 'https://testfire.net/login.jsp' # Replace with your application's URL
+          # Add other ZAP parameters as needed, e.g., rules to ignore
+          allow_issue_writing: true
+      # - name: Upload ZAP Report
+       # uses: actions/upload-artifact@v4
+       # with:
+       # name: zap-scan-report
+       # path: ./zap_scan.zip # Adjust filename as per your ZAP configuration
